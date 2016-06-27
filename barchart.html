@@ -7,28 +7,54 @@
 	</head>
 	<body>
 		<style type="text/css">
-			.bars{
+			.bars {
 				fill: steelblue;
+			}
+
+			svg {
+				border-style: solid;
+				border-width: 2px;
 			}
 		</style>
 		<script type="text/javascript">
-			d3.select("body")
+			var svg = d3.select("body")
 				.append("svg")
-				.attr({width: "500px", height: "230px"});
+				;
 
-			data = [167,120,66,88,44,144];
+			var dims = {
+				width: 500,
+				height: 240,
+				margins: {
+					top: 10,
+					bottom:10,
+					left: 10,
+					right: 10
+				}
+			}
 
-			var svg = d3.select("svg");
-				
+			svg.attr({width: dims.width+"px", height: dims.height+"px"});
+
+
+			dims.height = dims.height - dims.margins.top  - dims.margins.bottom;
+			dims.width  = dims.width  - dims.margins.left - dims.margins.right;
+
+			data = [1,2,3,4,5];
+
+			var yScale = d3.scale
+						.linear()
+						.range([dims.height,0])
+						.domain([0,d3.max(data)])
+
+
 			svg.selectAll(".bars")
 				.data(data)
 				.enter()
 				.append("rect")
 				.attr("class","bars")
-				.attr("width",function(d){return 10;})
-				.attr("height",function(d){return (+d);})
-				.attr("x",function(d,i){return 11*i+1;})
-				.attr("y",function(d){return 200-(+d);})
+				.attr("width",function(d){return dims.width/data.length-2;})
+				.attr("height",function(d){return dims.height-yScale(d);})
+				.attr("x",function(d,i){return dims.margins.left+(dims.width/data.length)*i;})
+				.attr("y",function(d){return dims.margins.top+yScale(d);})
 
 		</script>
 	</body>
