@@ -15,6 +15,11 @@
 				border-style: solid;
 				border-width: 2px;
 			}
+			.y.axis line,
+			.y.axis path {
+  				fill: none;
+  				stroke: #000;
+			}
 		</style>
 		<script type="text/javascript">
 			var svg = d3.select("body")
@@ -27,7 +32,7 @@
 				margins: {
 					top: 10,
 					bottom:10,
-					left: 10,
+					left: 40,
 					right: 10
 				}
 			}
@@ -38,13 +43,23 @@
 			dims.height = dims.height - dims.margins.top  - dims.margins.bottom;
 			dims.width  = dims.width  - dims.margins.left - dims.margins.right;
 
-			data = [1,2,3,4,5];
+			data = [1,2,3,4,5,4.4,3.1415,6];
 
 			var yScale = d3.scale
 						.linear()
 						.range([dims.height,0])
 						.domain([0,d3.max(data)])
 
+			var yAxis = d3.svg.axis()
+							.scale(yScale)
+							.orient("left")
+							.ticks(5)
+							;
+
+			svg.append("g")
+      			.attr("class", "y axis")
+      			.attr("transform", "translate(33,"+dims.margins.top+")" )
+      			.call(yAxis);
 
 			svg.selectAll(".bars")
 				.data(data)
