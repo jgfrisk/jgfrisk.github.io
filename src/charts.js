@@ -59,3 +59,32 @@ charts.directive('barChart', function(){
 					scope: {data: '='}
 				}
 			});
+
+charts.directive("pieChart",function(){
+	function link(scope, element, attr){
+		var width = 500, height = 500;
+		var pieces = scope.data;
+
+		var pie = d3.layout.pie();
+		var svg = d3.select(element[0])
+			.append("svg").attr({width: width, height: height})
+			.append("g")
+			.attr("transform","translate("+width/2+","+height/2+")")
+			;
+
+		var colors = d3.scale.category20();
+		var arc = d3.svg.arc().innerRadius(0).outerRadius(250);
+
+		svg.selectAll("path").data(pie(pieces)).enter()
+			.append("path")
+			.attr({d: arc})
+			.style({fill: function(d,i){ return colors(i); },
+				stroke: "black"
+				});
+	}
+	return {
+		link: link,
+		restrict: 'E',
+		scope: {data: '='}
+	}
+});
