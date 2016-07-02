@@ -9,13 +9,14 @@
     <body>
         <div id="container"></div>
         <script type="text/javascript">
+            var width = 500, height = 500;
             var pieces = d3.range(20);
-            var pie = d3.layout.pie();
 
+            var pie = d3.layout.pie();
             var svg = d3.select("#container")
-                .append("svg").attr({width: 500, height: 500})
+                .append("svg").attr({width: width, height: height})
                 .append("g")
-                .attr("transform","translate(250,250)")
+                .attr("transform","translate("+width/2+","+height/2+")")
                 ;
 
             var colors = d3.scale.category20();
