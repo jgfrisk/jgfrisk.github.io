@@ -64,12 +64,10 @@ charts.directive("pieChart",function(){
 	function link(scope, element, attr){
 		var width = element[0].clientWidth, height = element[0].clientHeight;
 
-		console.log(width);
-
 		function draw(data){
 		var pieces = data;
-
 		var pie = d3.layout.pie();
+        var pieData = pie(pieces);
 
 		d3.select(element[0]).selectAll("svg").remove();
 
@@ -82,9 +80,8 @@ charts.directive("pieChart",function(){
 		var colors = d3.scale.category20();
 		var arc = d3.svg.arc().innerRadius(0.7*width/2).outerRadius(width/2);
 
-		d3.select(element[0]).selectAll(".test").data(pie(pieces)).exit().remove();
 
-		svg.selectAll("path").data(pie(pieces)).enter()
+		svg.selectAll("path").data(pieData).enter()
 			.append("path")
 			.attr({d: arc})
 			.attr("class","test")
@@ -93,7 +90,9 @@ charts.directive("pieChart",function(){
 				"stroke-width": "0px"
 				});
 
-		}
+		d3.select(element[0]).selectAll(".test").data(pieData).exit().remove();
+
+        }
 
 		draw(scope.data);
 
