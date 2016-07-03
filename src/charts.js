@@ -62,10 +62,17 @@ charts.directive('barChart', function(){
 
 charts.directive("pieChart",function(){
 	function link(scope, element, attr){
-		var width = 500, height = 500;
-		var pieces = scope.data;
+		var width = element[0].clientWidth, height = element[0].clientHeight;
+
+		console.log(width);
+
+		function draw(data){
+		var pieces = data;
 
 		var pie = d3.layout.pie();
+
+		d3.select(element[0]).selectAll("svg").remove();
+
 		var svg = d3.select(element[0])
 			.append("svg").attr({width: width, height: height})
 			.append("g")
@@ -73,18 +80,36 @@ charts.directive("pieChart",function(){
 			;
 
 		var colors = d3.scale.category20();
-		var arc = d3.svg.arc().innerRadius(0).outerRadius(250);
+		var arc = d3.svg.arc().innerRadius(0.7*width/2).outerRadius(width/2);
+
+		d3.select(element[0]).selectAll(".test").data(pie(pieces)).exit().remove();
 
 		svg.selectAll("path").data(pie(pieces)).enter()
 			.append("path")
 			.attr({d: arc})
+			.attr("class","test")
 			.style({fill: function(d,i){ return colors(i); },
-				stroke: "black"
+				stroke: "white",
+				"stroke-width": "0px"
 				});
+
+		}
+
+		draw(scope.data);
+
+		scope.$watch(element,function(){
+
+			console.log("dffsd "+element[0].clientWidth);
+		});
+
+		scope.$watch("data",function(data){
+		if (data)
+			draw(data.map(function(d){return +d}));
+		});
 	}
 	return {
 		link: link,
 		restrict: 'E',
-		scope: {data: '='}
+		scope: {data: '=' }
 	}
 });
