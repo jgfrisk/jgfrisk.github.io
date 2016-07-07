@@ -13,7 +13,7 @@ charts.directive('barChart', function(){
 				height: 240,
 				margins: {
 					top: 20,
-					bottom:15,
+					bottom:20,
 					left: 45,
 					right: 15
 				}
@@ -25,7 +25,9 @@ charts.directive('barChart', function(){
 			dims.height = dims.height - dims.margins.top  - dims.margins.bottom;
 			dims.width  = dims.width  - dims.margins.left - dims.margins.right;
 
-			var data = scope.data;
+			var data = scope.data.y;
+
+			var xValues = scope.data.x;
 
 			var yScale = d3.scale
 						.linear()
@@ -52,7 +54,17 @@ charts.directive('barChart', function(){
 				.attr("height",function(d){return dims.height-yScale(d);})
 				.attr("x",function(d,i){return dims.margins.left+(dims.width/data.length)*i;})
 				.attr("y",function(d){return dims.margins.top+yScale(d);})
-				}
+
+			svg.selectAll(".xLabels")
+				.data(xValues).enter()
+				.append("text")
+				.attr("class","xLabels")
+				.text(function(d,i){return xValues[i]})
+				.attr("x",function(d,i){console.log(this.getComputedTextLength());return dims.margins.left+(dims.width/data.length)*(i+0.5)-this.getComputedTextLength()/2 ;})
+				.attr("y", dims.height+dims.margins.top+dims.margins.bottom/2+4)
+				.style("font-size","15px");
+
+			}
 				return {
 					link: link,
 					restrict: 'E',
