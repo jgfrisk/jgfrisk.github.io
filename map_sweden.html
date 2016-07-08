@@ -8,7 +8,7 @@
     <script src="src/charts.js"></script>
     <title>Sveriges 290 kommuner</title>
 </head>
-  <body ng-app="swedenMap">
+  <body ng-app="swedenMap" ng-controller="MapController">
         <style type="text/css">
           svg path{
             fill: white;
@@ -33,17 +33,18 @@
           }
           
         </style>
-        <div id="container" ng-controller="MapController">
+        <div id="container">
         
         <div id="title2" class="test"> {{ data.kommunNamn_hover }}</div>
         <div id="svgcontainer" style="float:left">
 
-          <sveriges-kommuner data="data"></sveriges-kommuner>
+          <sveriges-kommuner data="data" bars="bars"></sveriges-kommuner>
         </div>
           <div style="float:right">
-            <bar-chart data="{'x': [1,2,3],'y': [1,5,0.5]}"></bar-chart>
                 {{ data.kommunNamn }}
                 {{ data.kommunKod }}
+              <bar-chart data="bars"></bar-chart>
+
           </div>
         </div>
 

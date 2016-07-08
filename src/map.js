@@ -1,7 +1,11 @@
 var app = angular.module("swedenMap",["charts"]);
 
 app.controller("MapController",function($scope){
-	$scope.data = {};
+	$scope.data = {"bars": 
+                  {"x":[1,2,3],"y":[4,5,6]}
+                };
+
+  $scope.bars = {"x":[1,2,3],"y":[4,5,6]}
 });
 
 
@@ -51,6 +55,8 @@ app.directive("sverigesKommuner",function(){
                       
                       scope.data.kommunNamn = d.properties.KNNAMN.toString();
                       scope.data.kommunKod = d.properties.KNKOD.toString();
+                      scope.bars.x = d3.range(4);
+                      scope.bars.y = d3.range(4).map(function() {return 4*Math.random(); });
                       scope.$apply();
                     })
                     .on("mouseout" ,function(d,i){d3.select(this).classed("highlighted",false)});
@@ -68,6 +74,6 @@ app.directive("sverigesKommuner",function(){
 	return {
 		link: link,
 		restrict: 'E',
-		scope: {data: '='}
+		scope: {data: '=',bars: '='}
 	}
 });

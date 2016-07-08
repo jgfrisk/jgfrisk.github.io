@@ -2,11 +2,14 @@ var charts = angular.module("charts",[]);
 
 charts.directive('barChart', function(){
 	function link(scope, element, attr){
-		var svg = d3.select(element[0])
+		function draw(){
+
+			d3.select(element[0]).selectAll("svg").remove();
+
+			var svg = d3.select(element[0])
 				.append("svg")
 				;
 
-			console.log(element[0])
 
 			var dims = {
 				width: 300,
@@ -25,14 +28,14 @@ charts.directive('barChart', function(){
 			dims.height = dims.height - dims.margins.top  - dims.margins.bottom;
 			dims.width  = dims.width  - dims.margins.left - dims.margins.right;
 
-			var data = scope.data.y;
+			var yValues = scope.data.y;
 
 			var xValues = scope.data.x;
 
 			var yScale = d3.scale
 						.linear()
 						.range([dims.height,0])
-						.domain([0,d3.max(data)])
+						.domain([0,d3.max(yValues)])
 
 			var yAxis = d3.svg.axis()
 							.scale(yScale)
@@ -45,32 +48,42 @@ charts.directive('barChart', function(){
 				.attr("transform", "translate(33,"+dims.margins.top+")" )
 				.call(yAxis);
 
+			
+
 			svg.selectAll(".bars")
-				.data(data)
+				.data(yValues)
 				.enter()
 				.append("rect")
 				.attr("class","bars")
-				.attr("width",function(d){return dims.width/data.length-2;})
+				.attr("width",function(d){return dims.width/yValues.length-2;})
 				.attr("height",function(d){return dims.height-yScale(d);})
-				.attr("x",function(d,i){return dims.margins.left+(dims.width/data.length)*i;})
+				.attr("x",function(d,i){return dims.margins.left+(dims.width/yValues.length)*i;})
 				.attr("y",function(d){return dims.margins.top+yScale(d);})
 
+			d3.select(element[0]).selectAll(".bars").data(yValues).exit().remove();
+
+			
 			svg.selectAll(".xLabels")
 				.data(xValues).enter()
 				.append("text")
 				.attr("class","xLabels")
 				.text(function(d,i){return xValues[i]})
-				.attr("x",function(d,i){console.log(this.getComputedTextLength());return dims.margins.left+(dims.width/data.length)*(i+0.5)-this.getComputedTextLength()/2 ;})
+				.attr("x",function(d,i){return dims.margins.left+(dims.width/yValues.length)*(i+0.5)-this.getComputedTextLength()/2 ;})
 				.attr("y", dims.height+dims.margins.top+dims.margins.bottom/2+4)
 				.style("font-size","15px");
 
 			}
-				return {
-					link: link,
-					restrict: 'E',
-					scope: {data: '='}
-				}
-			});
+
+			scope.$watch("data",draw,true);
+
+			draw();
+		}
+			return {
+				link: link,
+				restrict: 'E',
+				scope: {data: '='}
+			}
+	});
 
 charts.directive("pieChart",function(){
 	function link(scope, element, attr){
