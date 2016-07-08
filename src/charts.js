@@ -89,10 +89,15 @@ charts.directive("pieChart",function(){
 	function link(scope, element, attr){
 		var width = element[0].clientWidth, height = element[0].clientHeight;
 
-		function draw(data){
-		var pieces = data;
+		function draw(){
+
+		console.log("draw");
+		var pieces = scope.data;
 		var pie = d3.layout.pie();
         var pieData = pie(pieces);
+
+
+		console.log(pieces);
 
 		d3.select(element[0]).selectAll("svg").remove();
 
@@ -126,10 +131,7 @@ charts.directive("pieChart",function(){
 			console.log("dffsd "+element[0].clientWidth);
 		});
 
-		scope.$watch("data",function(data){
-		if (data)
-			draw(data.map(function(d){return +d}));
-		});
+		scope.$watch("data",draw,true);
 	}
 	return {
 		link: link,

@@ -6,6 +6,8 @@ app.controller("MapController",function($scope){
                 };
 
   $scope.bars = {"x":[1,2,3],"y":[4,5,6]}
+
+  $scope.pies = [5,1,7,2];
 });
 
 
@@ -14,8 +16,8 @@ app.directive("sverigesKommuner",function(){
 
 
 	var width = 500,
-    height = 700;
-    var scale = 1300;
+    height = 600;
+    var scale = 1100;
 
         draw();
 
@@ -55,8 +57,12 @@ app.directive("sverigesKommuner",function(){
                       
                       scope.data.kommunNamn = d.properties.KNNAMN.toString();
                       scope.data.kommunKod = d.properties.KNKOD.toString();
-                      scope.bars.x = d3.range(4);
-                      scope.bars.y = d3.range(4).map(function() {return 4*Math.random(); });
+                      var dim = 1 + 7*Math.random();
+                      dim = Math.floor(dim);
+                      scope.bars.x = d3.range(dim);
+                      scope.bars.y = d3.range(dim).map(function() {return 4*Math.random(); });
+                    
+                      scope.pies = d3.range(dim).map(Math.random);
                       scope.$apply();
                     })
                     .on("mouseout" ,function(d,i){d3.select(this).classed("highlighted",false)});
@@ -74,6 +80,6 @@ app.directive("sverigesKommuner",function(){
 	return {
 		link: link,
 		restrict: 'E',
-		scope: {data: '=',bars: '='}
+		scope: {data: '=',bars: '=',pies: '='}
 	}
 });

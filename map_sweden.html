@@ -10,8 +10,8 @@
 </head>
   <body ng-app="swedenMap" ng-controller="MapController">
         <style type="text/css">
-          svg path{
-            fill: white;
+          sveriges-kommuner svg path{
+            fill: lightgrey;
             stroke: black;
             stroke-width: 0.5;
           }
@@ -26,25 +26,42 @@
             left: 200px;
             border: 3px solid #73AD21;
             padding: 10px;
+            float: right;
+          }
+           pie-chart {
+            width: 100px;
+            height: 100px;
+            display: block;
+            float: left;
           }
 
           .bars {
             fill: steelblue;
           }
+
+          .chart svg {
+            border-style: solid;
+            border-width: 2px;
+          }
           
+          .y.axis line,
+          .y.axis path {
+          fill: none;
+          stroke: #000;
+          }
         </style>
         <div id="container">
         
         <div id="title2" class="test"> {{ data.kommunNamn_hover }}</div>
         <div id="svgcontainer" style="float:left">
 
-          <sveriges-kommuner data="data" bars="bars"></sveriges-kommuner>
+          <sveriges-kommuner data="data" bars="bars" pies="pies" style="position:absolute;"></sveriges-kommuner>
         </div>
           <div style="float:right">
                 {{ data.kommunNamn }}
                 {{ data.kommunKod }}
-              <bar-chart data="bars"></bar-chart>
-
+              <bar-chart data="bars" class="chart"></bar-chart>
+              <pie-chart data="pies" class="chart"></pie-chart>
           </div>
         </div>
 
