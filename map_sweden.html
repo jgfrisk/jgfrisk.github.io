@@ -27,18 +27,23 @@
             border: 3px solid #73AD21;
             padding: 10px;
           }
+
+          .bars {
+            fill: steelblue;
+          }
           
         </style>
         <div id="container" ng-controller="MapController">
-        {{ data.kommunNamn }}
-        {{ data.kommunKod }}
+        
         <div id="title2" class="test"> {{ data.kommunNamn_hover }}</div>
         <div id="svgcontainer" style="float:left">
 
           <sveriges-kommuner data="data"></sveriges-kommuner>
         </div>
           <div style="float:right">
-            <bar-chart data="data.data"></bar-chart>
+            <bar-chart data="{'x': [1,2,3],'y': [1,5,0.5]}"></bar-chart>
+                {{ data.kommunNamn }}
+                {{ data.kommunKod }}
           </div>
         </div>
 

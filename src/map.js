@@ -1,4 +1,4 @@
-var app = angular.module("swedenMap",[]);
+var app = angular.module("swedenMap",["charts"]);
 
 app.controller("MapController",function($scope){
 	$scope.data = {};
