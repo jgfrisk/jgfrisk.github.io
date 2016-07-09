@@ -149,3 +149,36 @@ charts.directive("pieChart",function(){
 		scope: {data: '=' }
 	}
 });
+
+charts.directive("scatterPlot",function(){
+	function link(scope,element,attr){
+		
+		var svg = d3.select(element[0]).append("svg");
+
+		function draw(){
+			
+			svg.selectAll(".circles")
+				.data(scope.data)
+				.enter()
+				.append("circle")
+				.attr("class","circles")
+				.attr("r",function(d,i){return 5*(i+1)})
+				.attr("cx",function(d,i){return 50+30*i;})
+				.attr("cy",50);
+
+			svg.selectAll(".circles")
+				.data(scope.data)
+				.exit()
+				.remove()
+			
+		}
+
+		// Watch data for changes and call the draw function
+		scope.$watch('data',draw,true);
+	}
+	return {
+		link: link,
+		restrict: 'E',
+		scope: {data: '='}
+	}
+});

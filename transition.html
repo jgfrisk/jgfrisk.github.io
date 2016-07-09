@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Transition Test</title>
+		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			d3.select("body")
+				.append("svg")
+				.attr({width:500,height:200})
+				.append("circle")
+				.attr({r:10,cx:100,cy:100})
+				.transition()
+				.ease("elastic")
+				.duration(1500)
+				.attr({cx:300,cy:170,r:30})
+				.transition().attr({cx:80,cy:120});
+		</script>
+	</body>
+</html>
+

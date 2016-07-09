@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"></meta>
+		<title>Scatter Plot</title>
+		<script src="https://d3js.org/d3.v3.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+		<script src="src/charts.js"></script>
+	</head>
+	<body ng-app="charts" ng-init="list=[1,2]">
+		<textarea ng-model="list" ng-list></textarea>
+        <pre>{{ list | json }}</pre>
+		<scatter-plot data="list"></scatter-plot>
+	</body>
+</html>
