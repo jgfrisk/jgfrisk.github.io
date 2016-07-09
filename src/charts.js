@@ -62,6 +62,16 @@ charts.directive('barChart', function(){
 
 			d3.select(element[0]).selectAll(".bars").data(yValues).exit().remove();
 
+
+			svg.selectAll("rect").on("mouseover",function(d,i){
+                      //d3.select(this).style({fill: "gold","stroke-width": "2","stroke-dasharray": null});
+                      //d3.selectAll("#title").text(d.properties.KNNAMN.toString()).attr("class","test");
+                      d3.select(this).style("fill","lightblue");
+                      console.log("hkh");
+                    })
+			.on("mouseout",function(d,i){
+				d3.select(this).style("fill","steelblue");
+			})
 			
 			svg.selectAll(".xLabels")
 				.data(xValues).enter()
